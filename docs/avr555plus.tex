@@ -61,7 +61,38 @@
 \section{Introduction}
 
 \subsection{Concept}
-\section{Applications}
+avr555+ is a firmware for AVR microcontrollers that allows a variety of common timing, sensing, and control functions to be implemented using only passive components and wiring changes, with no need for a PC, code changes, or serial-port programmer.
+
+AVR microcontrollers flashed with this firmware can function as timers, thermostats, motor controllers, simple human interface devices, and more, without the need for any conventional programming changes. Devices pre-flashed with avr555+ firmware can simply be "programmed" for the desired function at the time of use.
+
+avr555+ is written for ATMEGA328 microcontrollers in common DIP packages. It uses the internal oscillator to eliminate the need for a crystal oscillator, and many functions assume 5V power supply.
+
+Here are some of the applications that can be done with avr555+. All functions can be implemented without reprogramming:
+\begin{itemize}
+\item Simple oscillator -- outputs a square wave at 50\% duty cycle. The frequency can be chosen by choice of resistor, and by extension, frequency can be adjusted with a potentiometer. In this case the AVR replaces a timer such as a 555 timer.\\
+\item Simple comparator -- compares voltages and toggles an output based on comparison. In this case the AVR replaces a comparator, such as LM311P.
+\item Thermostat -- Similar to the comparator, but the reference voltage (which varies based on transducer used), voltage hysteresis, and "compressor delay" function can be programmed by resistors for a variety of common temperature transducers such as PT100, thermistors, and LM335.
+\item Debouncer -- filter digital inputs to remove noise, using Schmitt-trigger-like filtering in software.
+\item Bistable memory -- output switches between on or off when triggered
+\item ADC -- read an analog voltage and output a digital value by direct binary, serial port, or PWM.
+\item Stepper motor driver -- Drive a bipolor stepper motor using step-and-direction inputs, using the microcontroller to do the step translation
+\item Stepper motor speed controller -- Control a bipolor stepper motor continuously using direction-and-speed inputs.
+\item PWM controller -- output a variable duty cycle pulse-width modulation. The frequency of the PWM can be configured by wiring. This mode can also be "stacked" with the thermostat function, allowing output power to be adjusted separately.
+
+\end{itemize}
+
+\section{Programming}
+
+\begin{tabular}{|l|l|l|c|}
+\hline
+Pin voltage & Top, Bottom resistors & Function & Description\\
+\hline
+0V& 0, 0 &Default  & Analog comparator\\
+\hline
+50mV& 100k, 1k& Default  & Thermostat \\
+\hline
+\end {tabular}
+
 \subsection{oscillator}
 
 

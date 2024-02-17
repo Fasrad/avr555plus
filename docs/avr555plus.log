@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=latex 2024.2.16)  16 FEB 2024 19:51
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=latex 2024.2.16)  17 FEB 2024 16:27
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -193,22 +193,29 @@ Package lastpage Info: Please have a look at the pageslts package at
 \tf@toc=\write3
 \openout3 = `avr555plus.toc'.
 
- 
+ [1
+
+]
+LaTeX Font Info:    Trying to load font information for TS1+ppl on input line 7
+2.
+
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1ppl.fd
+File: ts1ppl.fd 2001/06/04 font definitions for TS1/ppl.
+)
+Underfull \hbox (badness 10000) in paragraph at lines 72--73
+
+ []
+
+
 AED: lastpage setting LastPage
-[1
-
-] (./avr555plus.aux)
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
- ) 
+[2] [3] (./avr555plus.aux) ) 
 Here is how much of TeX's memory you used:
- 2090 strings out of 480248
- 33748 string characters out of 5896177
- 323912 words of memory out of 5000000
- 20038 multiletter control sequences out of 15000+600000
- 473769 words of font info for 41 fonts, out of 8000000 for 9000
+ 2134 strings out of 480248
+ 34318 string characters out of 5896177
+ 326912 words of memory out of 5000000
+ 20071 multiletter control sequences out of 15000+600000
+ 477621 words of font info for 54 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 54i,6n,62p,254b,191s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 54i,11n,62p,354b,262s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on avr555plus.dvi (1 page, 1332 bytes).
+Output written on avr555plus.dvi (3 pages, 6040 bytes).
