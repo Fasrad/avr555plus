@@ -1,0 +1,74 @@
+\newcommand{\specname}{Chaz Miller}
+\newcommand{\status}{beta}
+\newcommand{\ecn}{NA}
+\newcommand{\revdate}{2024-02-12}
+\newcommand{\rev}{000}
+
+\newcommand{\degree}{\ensuremath{^\circ}} % degree symbol
+\newcommand{\RF}{Rayleigh-Fraunhofer} %laziness
+
+\documentclass[dvips,12pt]{article}
+\renewcommand{\contentsname}{3. Index}  % I don't like 'table of contents'
+
+\usepackage{amsmath}
+%\usepackage{program}
+\usepackage{a4,color,graphics,palatino,fancyhdr}
+\usepackage{lastpage}  % for the END OF DATA thing
+\usepackage{fancyhdr}
+\usepackage{changepage}% http://ctan.org/pkg/changepage
+\usepackage{graphicx}
+\usepackage{fixltx2e} % allow \textsubscript
+
+\setlength{\headheight}{15pt} %?
+
+\setcounter{secnumdepth}{1} %toc formatting options
+\setcounter{tocdepth}{1}
+
+\lhead{\specname}
+\rhead{rev.\  \rev} 
+\chead{\revdate}
+\cfoot{\footnotesize Page\ \thepage\ of \pageref{LastPage}}
+\rfoot{\footnotesize Copyright Chaz Miller}
+\pagestyle{fancy}
+
+\title{avr555+: a general purpose firmware for AVR microcontrollers}
+
+\author{Chaz Miller}
+
+\begin{document}
+
+\frenchspacing
+\maketitle
+\tableofcontents
+
+%\renewcommand{\arraystretch}{1}
+%\section{References}
+%\begin{adjustwidth}{2.5em}{0pt}
+%\begin{tabular}{   l }
+%\emph {none}\\
+%\end{tabular}
+%\end{adjustwidth}
+
+\section{Definitions}
+\begin{adjustwidth}{2.5em}{0pt}
+\begin{description}
+    \item[P] Linear dimension of final print 
+    \item[W] Angle-of-view factor 
+    \item[AOV] Angle of view
+\end{description}
+\end{adjustwidth}
+
+\section{Introduction}
+
+\subsection{Concept}
+\section{Applications}
+\subsection{oscillator}
+
+
+\vspace{2cm}
+\centering
+TO BE CONTINUED
+\appendix
+
+\end{document}
+

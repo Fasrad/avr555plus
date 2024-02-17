@@ -1,0 +1,11 @@
+#!/bin/bash
+
+
+latex $@.tex
+latex $@.tex
+
+dvipdf $@.dvi
+
+evince $@.pdf &
+
+

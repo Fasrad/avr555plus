@@ -1,0 +1,5 @@
+\contentsline {section}{\numberline {1}Definitions}{1}{}%
+\contentsline {section}{\numberline {2}Introduction}{1}{}%
+\contentsline {subsection}{Concept}{1}{}%
+\contentsline {section}{\numberline {3}Applications}{1}{}%
+\contentsline {subsection}{oscillator}{1}{}%
