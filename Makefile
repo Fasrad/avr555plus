@@ -3,7 +3,7 @@ MEGA=328
 CFLAGS=-Os -std=c99 -mmcu=atmega$(MEGA)
 OBJ2HEX=/usr/bin/avr-objcopy 
 PROG=/usr/bin/avrdude
-TARGET=avr555plus
+TARGET=blink
 
 program : $(TARGET).hex
 	$(PROG) -c usbasp -p m$(MEGA) -P /dev/ttyACM0 -e
