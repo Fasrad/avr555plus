@@ -25,13 +25,18 @@ void adc_init(void);  // Inits ADC at 12 bits oversampled
 interrupt-safe. Depends on clock setups. ADC*/
 uint16_t adc_read(uint8_t); 
 
-uint16_t probe_ad;  
-uint16_t set_ad;  
-
 int main(){
     //8 bit Timer 0 is used by delay(). PWM on PD6 and PD5. 
-    TCCR0A = 0;                //standard timer mode (page 103)
-    TCCR0B = 2;                //fcpu / 1
+    TCCR0A |= 1<<WGM00;         //phase correct top=OCRA; divides by 2
+    TCCR0B |= 1<<WGM02;
+
+    TCCR0B |= 1<<CS00;           //fcpu / 1 (1MHz)
+    //TCCR0B |= 1<<CS01;           //fcpu / 1 (1MHz)
+    TCCR0B = 1<<CS02;           //fcpu / 1 (1MHz)
+    //TCCR0B = 1<<CS02;           //fcpu / 1 (1MHz)
+    OCR0A  = 100;               //sets TOP; should be 1kHz
+    OCR0B  = 50;                //50% duty cycle, pwm on PD5
+
     //16-bit Timer 1 used as output PWM on OC1B PB2 p.115
     //noninverting phase correct, CTC-PWM hybrid mode p135 
     TCCR1A = (1<<COM1B1)|(1<<WGM11)|(1<<WGM10); 
@@ -42,17 +47,17 @@ int main(){
     OCR1B = 0;
     PORTB = 0xFF;
     DDRB = 0b000100100;        //LED on PB5; OC1B is PB2
+    DDRD = 0xFF;        //output 
     adc_init();
     /****************************************
     *****main loop***************************
     ****************************************/
-    blink(4);
     // this is where we do hardware detection.
 
     //this is where we call functions in other source files like program0, program1 etc., possibly with a switch statement?
 
     for(;;){  
-    blink(2);
+    blink(20);
     delay(500);
     } //infty
 }//main
@@ -79,7 +84,7 @@ uint16_t adc_read(uint8_t me){    //expects register value, not port pin label
 }
 
 void delay(uint16_t me){    //at 1MHz, each unit is 2.55us. 1ms is 4units. 
-    while(me){
+    while(me){              //interferes with PWM timer; for debug
 	while(TCNT0 < 128){}
 	me--;
 	while(TCNT0 > 128){}
@@ -89,7 +94,7 @@ void delay(uint16_t me){    //at 1MHz, each unit is 2.55us. 1ms is 4units.
 void blink (uint8_t me){
     for (int i=0; i<me; i++){
 	PORTB |= (1<<5);
-	delay(200);
+	delay(20);
 	PORTB &= ~(1<<5);
 	delay(200);
     }
