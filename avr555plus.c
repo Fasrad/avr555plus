@@ -61,8 +61,8 @@ int main(){
     TCCR1A |= (1<<COM1B1);            // compare match 
     //TCCR1B = (1<<WGM13)|(1<<CS11)|(1<<CS10);       //  clk/64
     //TCCR1B = (1<<WGM13)|(1<<CS10);                 //  clk/1
-    OCR1A = 0xFFFF;             //sets pwm TOP value
-    OCR1B = 0x8000;
+    OCR1A = 0x8000;             //sets pwm TOP value
+    OCR1B = 0x4000;
 
     DDRD = 0xFF;        //output 
     DDRB = 0xFF;        //LED on PB5; OC1B is PB2
@@ -79,14 +79,15 @@ int main(){
     //this is where we call functions in other source files like program0, program1 etc., possibly with a switch statement?
 
     for(;;){  
-    blink(20);
-    delay(500);
+        blink(5);
+        delay(1000);
+        OCR1A = adc_read(0);
     } //infty
 }//main
 
 void adc_init(void){
-    //ADCSRA = (1<<ADEN)|(1<<ADPS1)|(1<<ADPS0); //125kHz @ 1MHz clock, page 264
-    ADCSRA = (1<<ADEN)|(1<<ADPS2); //62kHz @ 1MHz clock, page 264
+    //acd conversion takes normally 13 clock cycles. 
+    ADCSRA = (1<<ADEN)|(1<<ADPS1)|(1<<ADPS0); //125kHz @ 1MHz clock, page 21
     ADMUX |= (1<<REFS0);           //Avcc (5v)
     //ADMUX |= (1<<ADLAR);           //left align for 8-bit operation
     ADCSRA |= (1<<ADEN);  // redundant?? Some you have to write twice...
@@ -98,29 +99,29 @@ uint16_t adc_read(uint8_t me){    //expects register value, not port pin label
     ADMUX &= 0xF0;
     ADMUX |= me;
     for (int i=0; i<16; i++){
-	ADCSRA |= (1<<ADSC); 
-	while(ADCSRA & (1<<ADSC)); 
-	ad_bucket += ADCW;
+        ADCSRA |= (1<<ADSC);        // start conversion
+        while(ADCSRA & (1<<ADSC));  // Block until done; ADCSC serves
+        ad_bucket += ADCW;          // also as a completion flag
     }
-    return (ad_bucket>>2); //12 bits oversampled
+    return (ad_bucket>>2); //12 bits oversampled; about 1.6ms at 125kHz
 }
 
 void delay(uint16_t me){    //at 1MHz, each unit is 2.55us. 1ms is 4units. 
     while(me){              //interferes with PWM timer; for debug
-	while(TCNT0 < 128){}
+	while(TCNT0 < 30){}
 	me--;
-	while(TCNT0 > 128){}
+	while(TCNT0 > 30){}
     }
 }
 
 void blink (uint8_t me){
     for (int i=0; i<me; i++){
 	PORTB |= (1<<5);
-	delay(20);
-	PORTB &= ~(1<<5);
 	delay(200);
+	PORTB &= ~(1<<5);
+	delay(400);
     }
-    delay(500);
+    delay(600);
 }
 /*Set a bit
  bit_fld |= (1 << n)
