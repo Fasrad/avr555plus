@@ -62,7 +62,7 @@ int main(){
     //TCCR1B = (1<<WGM13)|(1<<CS11)|(1<<CS10);       //  clk/64
     //TCCR1B = (1<<WGM13)|(1<<CS10);                 //  clk/1
     OCR1A = 0x8000;             //sets pwm TOP value
-    OCR1B = 0x4000;
+    OCR1B = 0x2000;
 
     DDRD = 0xFF;        //output 
     DDRB = 0xFF;        //LED on PB5; OC1B is PB2
@@ -81,8 +81,10 @@ int main(){
     for(;;){  
         blink(5);
         delay(1000);
-//        OCR1B = adc_read(0);
- //       delay(1000);
+        OCR1A = adc_read(0);
+        blink(10);
+        delay(1000);
+        OCR1A = 0x4000;
   //      OCR1B = 0x4000;
     } //infty
 }//main
