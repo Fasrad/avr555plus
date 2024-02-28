@@ -98,7 +98,38 @@ Pin voltage & Top, Bottom resistors & Function & Description\\
 
 \vspace{2cm}
 \centering
-TO BE CONTINUED
+\subsection {Program 0)
+This program provides 3 simultaneous PWM controllers at a variety of
+frequencies. To use
+this program, connect pin 23 (PC0) to ground. To use any of the
+variable output functions, connect resistors or potentiometers to pin
+24 (PC1) and/or pin 25 (PC2). 
+
+Functions:
+
+1kHz oscillator on Timer0A: output on pin 12 (PD6). No other connections needed. 
+1kHz PWM controller on Timer0B: connect pin 11 (PD5). Duty cycle will be varied according to 
+voltage applied on pin 24 (PC1). To turn off output, connect pin 10 (PB7)
+to ground. 
+
+10kHz oscillator on Timer2A: connect pin 12 (PB3). No other connections
+needed.
+10kHz PWM controller on Timer2B: connect pin 5 (PD3). Duty cycle will be varied
+according to voltage applied on pin 25 (PC2). To turn off output, connect
+pin 4 (PD2) to ground. 
+
+Variable frequency generator: Connect pin 15 (PB1) to Vcc to enable output.
+Connect output on pin 16 (PB2). Frequency will be
+varied according to voltage applied on pin 26 (PC3). Duty cycle will be
+varied according to voltage applied on pin 27 (PC4). To turn off output,
+connect pin 15 (PB1) to ground. 
+
+Thermostat: connect as above, but instead of pulling up pin 15, connect
+output of a comparator, such as the output of an LM317 or thermistor
+comparator circuit. The output on pin 16 will toggle according to the
+temperature. This mode works with the other PWM outputs as well by toggling
+the output enable pins. 
+
 \appendix
 
 \end{document}

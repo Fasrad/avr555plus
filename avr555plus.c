@@ -26,18 +26,29 @@ interrupt-safe. Depends on clock setups. ADC*/
 uint16_t adc_read(uint8_t); 
 
 int main(){
-    //8 bit Timer 0 is used by delay(). PWM on PD6 and PD5. 
-    TCCR0A |= 1<<WGM00;         //phase correct top=OCRA; divides by 2
-    TCCR0B |= 1<<WGM02;
+    //Setup 8 bit Timer 0 is used for 1kHz output
+    // as well as for delay(). PWM on PD6 and PD5. 
+    TCCR0A |= 1<<WGM00;         //phase correct mode 5 top=OCRA; divides by 2
+//    TCCR0B |= 1<<WGM02; // p86
 
     TCCR0B |= 1<<CS00;           //fcpu / 1 (1MHz)
-    //TCCR0B |= 1<<CS01;           //fcpu / 1 (1MHz)
-    TCCR0B = 1<<CS02;           //fcpu / 1 (1MHz)
+    //TCCR0B |= 1<<CS01;           
+    //TCCR0B |= 1<<CS02;           //fcpu / 1 (1MHz)
     //TCCR0B = 1<<CS02;           //fcpu / 1 (1MHz)
-    OCR0A  = 100;               //sets TOP; should be 1kHz
-    OCR0B  = 50;                //50% duty cycle, pwm on PD5
+    TCCR0A |= 1<<COM0A1;           //set compare match mode p84
+    TCCR0A |= 1<<COM0B1;           //set compare match mode p84
+    OCR0A  = 50;               //sets TOP in this mode; should be 1kHz
+    OCR0B  = 80;                //50% duty cycle, pwm on PD5
+    DDRD = 0xFF;
+    PORTD=0xFF;
 
-    //16-bit Timer 1 used as output PWM on OC1B PB2 p.115
+    //setup 8 bit timer2 used for fast PWM at 30kHz
+    TCCR2A |= 1<<WGM20; //mode 1 p 130
+    TCCR2B |= 1<<CS20; //no prescale 
+    OCR2A = 0x80;  //set duty cycle in this mode
+    OCR2B = 0x40; 
+
+    //16-bit Timer 1 used as variable-frequency output PWM on OC1B PB2 
     //noninverting phase correct, CTC-PWM hybrid mode p135 
     TCCR1A = (1<<COM1B1)|(1<<WGM11)|(1<<WGM10); 
     TCCR1B = (1<<WGM13)|(1<<CS12);                 //  clk/256
@@ -45,10 +56,13 @@ int main(){
     //TCCR1B = (1<<WGM13)|(1<<CS10);                 //  clk/1
     OCR1A = 0x0FF0;             //sets pwm TOP value
     OCR1B = 0;
-    PORTB = 0xFF;
-    DDRB = 0b000100100;        //LED on PB5; OC1B is PB2
     DDRD = 0xFF;        //output 
+    DDRB = 0b000100100;        //LED on PB5; OC1B is PB2
+    PORTB = 0xFF;
+
+    //ADC is used to read PWM duty cycle inputs. 
     adc_init();
+
     /****************************************
     *****main loop***************************
     ****************************************/
