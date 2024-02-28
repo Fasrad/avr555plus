@@ -69,7 +69,7 @@ int main(){
     PORTB = 0xFF;
 
     //ADC is used to read PWM duty cycle inputs. 
-    adc_init();
+    //adc_init();
 
     /****************************************
     *****main loop***************************
@@ -81,7 +81,9 @@ int main(){
     for(;;){  
         blink(5);
         delay(1000);
-        OCR1A = adc_read(0);
+//        OCR1B = adc_read(0);
+ //       delay(1000);
+  //      OCR1B = 0x4000;
     } //infty
 }//main
 
@@ -98,6 +100,7 @@ uint16_t adc_read(uint8_t me){    //expects register value, not port pin label
     uint16_t ad_bucket=0;
     ADMUX &= 0xF0;
     ADMUX |= me;
+    while(ADCSRA & (1<<ADSC));      // Block let ADC finish if not done
     for (int i=0; i<16; i++){
         ADCSRA |= (1<<ADSC);        // start conversion
         while(ADCSRA & (1<<ADSC));  // Block until done; ADCSC serves
